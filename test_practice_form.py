@@ -7,7 +7,7 @@ import os
 
 def test_submitting_the_form(browser_settings):
 
-    browser.open("https://demoqa.com/automation-practice-form")
+    browser.open("/automation-practice-form")
     browser.element('#firstName').type('Ivan')
     browser.element('#lastName').type('Ivanov')
     browser.element('#userEmail').type('Ivanov235@yandex.ru')
@@ -38,7 +38,7 @@ def test_submitting_the_form(browser_settings):
     browser.element('#submit').click()
 
     browser.element('.modal-title').should(have.text('Thanks for submitting the form'))
-    time.sleep(3)
+
 
     browser.element('.modal-content').should(be.visible)
     browser.all('td').should(have.texts([
