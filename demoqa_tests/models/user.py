@@ -1,7 +1,6 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import date
 from enum import Enum
-from typing import List
 
 
 class Gender(str, Enum):
@@ -30,13 +29,3 @@ class User:
     address: str = ''
     state: str = ''
     city: str = ''
-
-
-
-    @property
-    def birthday_result(self) -> str:
-        months = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'
-        ]
-        return f'{self.birth_date.day} {months[self.birth_date.month - 4]},{self.birth_date.year}'

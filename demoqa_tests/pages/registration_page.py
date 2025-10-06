@@ -1,14 +1,13 @@
 from selene import browser, have, be, command
-
+import calendar
 from demoqa_tests import resource
-from datetime import date
+
 
 from demoqa_tests.data.student import student
 
 
 class RegistrationPage:
     def __init__(self):
-    #self.panel = SubmittingFormPage()
 
         self._first_name = browser.element('#firstName')
         self._last_name = browser.element('#lastName')
@@ -17,44 +16,19 @@ class RegistrationPage:
         self._upload = browser.element('#uploadPicture')
         self._address = browser.element('#currentAddress')
         self._subjects = browser.element('#subjectsInput')
-
-        # self._gender_male = browser.element('label[for="gender-radio-1"]')
-        # self._gender_female = browser.element('label[for="gender-radio-2"]')
-        # self._gender_other = browser.element('label[for="gender-radio-3"]')
-        #
         self._birth_input = browser.element('#dateOfBirthInput')
         self._birth_year_select = browser.element('.react-datepicker__year-select')
         self._birth_month_select = browser.element('.react-datepicker__month-select')
-
-
-
-    # self._subjects_box = browser.element('#subjectsContainer')
-    # self._subjects_input = browser.element('#subjectsInput')
-    #
-    # self._hobby_sports = browser.element('label[for="hobbies-checkbox-1"]')
-    # self._hobby_reading = browser.element('label[for="hobbies-checkbox-2"]')
-    # self._hobby_music = browser.element('label[for="hobbies-checkbox-3"]')
-    #
-    #
-    #
         self._state = browser.element('#state')
         self._all = browser.all('div[class*="option"]')
-
         self._city = browser.element('#city')
-
-    #
         self._submit = browser.element('#submit')
-    #
-    # self._genders = {
-    #     'Male': self._gender_male,
-    #     'Female': self._gender_female,
-    #     'Other': self._gender_other,
-    # }
+
         self._hobbies = {
             'Sports': browser.element('label[for="hobbies-checkbox-1"]'),
             'Reading': browser.element('label[for="hobbies-checkbox-2"]'),
             'Music': browser.element('label[for="hobbies-checkbox-3"]')
-            }
+        }
 
     def open(self):
         browser.open("/automation-practice-form")
@@ -85,12 +59,14 @@ class RegistrationPage:
             {'Male': 'label[for="gender-radio-1"]',
              'Female': 'label[for="gender-radio-2"]',
              'Other': 'label[for="gender-radio-3"]'}[value]
-            ).click()
+        ).click()
         return self
 
     def birthday(self, data):
         self._birth_input.click()
-        self._birth_month_select.type(data.month)
+
+        month = calendar.month_name[student.birth_date.month]
+        self._birth_month_select.type(month)
 
         self._birth_year_select.type(data.year)
 
@@ -145,22 +121,16 @@ class RegistrationPage:
         browser.element('.modal-content').should(be.visible)
 
         browser.element('.table').all('td').even.should(have.exact_texts(
-                 f'{student.first_name} {student.last_name}',
-                 student.email,
-                 student.gender.value,
-                 '9789123456',
-                 '15 October,1995',
-                 student.subjects,
-                 student.hobbies.value,
-                 student.picture,
-                 student.address,
-                 f'{student.state} {student.city}'
-            ))
+            f'{student.first_name} {student.last_name}',
+            student.email,
+            student.gender.value,
+            '9789123456',
+            f'{student.birth_date.day} {calendar.month_name[student.birth_date.month]},{student.birth_date.year}',
+            student.subjects,
+            student.hobbies.value,
+            student.picture,
+            student.address,
+            f'{student.state} {student.city}'
+        ))
 
         return self
-
-
-
-
-
-
