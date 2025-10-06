@@ -1,56 +1,24 @@
-import time
+from selene import browser, have
 
-from selene import browser, be, have
-from selenium.webdriver.chrome.options import Options
-import os
+from demoqa_tests import resource
+from demoqa_tests.pages.registration_page import RegistrationPage
 
 
 def test_submitting_the_form(browser_settings):
-
-    browser.open("/automation-practice-form")
-    browser.element('#firstName').type('Ivan')
-    browser.element('#lastName').type('Ivanov')
-    browser.element('#userEmail').type('Ivanov235@yandex.ru')
-
-    browser.element('label[for="gender-radio-1"]').click()
-
-    browser.element('#userNumber').type('97891234567')
-
-    browser.element('#dateOfBirthInput').click()
-    browser.element('.react-datepicker__month-select').element('option[value="5"]').click()
-    browser.element('.react-datepicker__year-select').element('option[value="1995"]').click()
-    browser.element('.react-datepicker__day--015').click()
-
-    browser.element('#subjectsInput').type('Physics').press_enter()
-
-    browser.element('label[for="hobbies-checkbox-2"]').click()
-
-    browser.element('#uploadPicture').set_value(os.path.abspath('sostavlennaa-kniga-i-doska.jpg'))
-
-    browser.element('#currentAddress').type('Lenina str')
-
-    browser.element('#state').click()
-    browser.all('div[class*="option"]').element_by(have.text('NCR')).click()
-
-    browser.element('#city').click()
-    browser.all('div[class*="option"]').element_by(have.text('Noida')).click()
-
-    browser.element('#submit').click()
-
-    browser.element('.modal-title').should(have.text('Thanks for submitting the form'))
-
-
-    browser.element('.modal-content').should(be.visible)
-    browser.all('td').should(have.texts([
-        'Student Name', 'Ivan Ivanov',
-        'Student Email', 'Ivanov235@yandex.ru',
-        'Gender', 'Male',
-        'Mobile', '9789123456',
-        'Date of Birth', '15 June,1995',
-        'Subjects', 'Physics',
-        'Hobbies', 'Reading',
-        'Picture', 'sostavlennaa-kniga-i-doska.jpg',
-        'Address', 'Lenina str',
-        'State and City', 'NCR Noida'
-    ]))
+    registration_page = RegistrationPage()
+    registration_page.open()
+    registration_page.fill_first_name('Ivan')
+    registration_page.fill_last_name('Ivanov')
+    registration_page.fill_email('Ivanov235@yandex.ru')
+    registration_page.fill_gender('Male')
+    registration_page.fill_user_number('97891234567')
+    registration_page.birthday('1995', 'June', '15')
+    registration_page.subjects('Physics')
+    registration_page.hobbies('Reading')
+    registration_page.upload_file('sostavlennaa-kniga-i-doska.jpg')
+    registration_page.fill_address('Lenina str')
+    registration_page.fill_state('NCR')
+    registration_page.fill_city('Noida')
+    registration_page.click_submit()
+    registration_page.should_registered_user_data()
 
