@@ -1,6 +1,4 @@
-from selene import browser, have
 
-from demoqa_tests import resource
 from demoqa_tests.pages.registration_page import RegistrationPage
 
 
@@ -21,4 +19,3 @@ def test_submitting_the_form(browser_settings):
     registration_page.fill_city('Noida')
     registration_page.click_submit()
     registration_page.should_registered_user_data()
-

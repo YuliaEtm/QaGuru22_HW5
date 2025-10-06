@@ -7,29 +7,29 @@ class RegistrationPage:
     def open(self):
         browser.open("/automation-practice-form")
         return self
-    
+
     def fill_first_name(self, value):
         browser.element('#firstName').type(value)
         return self
-    
+
     def fill_last_name(self, value):
         browser.element('#lastName').type(value)
         return self
-    
+
     def fill_email(self, value):
         browser.element('#userEmail').type(value)
         return self
-    
+
     def fill_gender(self, value):
         browser.element(
             {'Male': 'label[for="gender-radio-1"]',
              'Female': 'label[for="gender-radio-2"]',
              'Other': 'label[for="gender-radio-3"]'}[value]
-            ).click()
+        ).click()
         return self
-    
+
     def fill_user_number(self, value):
-        browser.element('#userNumber').type('97891234567')
+        browser.element('#userNumber').type(value)
         return self
 
     def birthday(self, year, month, day):
@@ -40,7 +40,7 @@ class RegistrationPage:
         return self
 
     def subjects(self, value):
-        browser.element('#subjectsInput').type('Physics').press_enter()
+        browser.element('#subjectsInput').type(value).press_enter()
         return self
 
     def hobbies(self, value):
@@ -78,22 +78,16 @@ class RegistrationPage:
         browser.element('.modal-content').should(be.visible)
 
         browser.element('.table').all('td').even.should(have.exact_texts(
-                 'Ivan Ivanov',
-                 'Ivanov235@yandex.ru',
-                 'Male',
-                 '9789123456',
-                 '15 June,1995',
-                 'Physics',
-                 'Reading',
-                 'sostavlennaa-kniga-i-doska.jpg',
-                 'Lenina str',
-                 'NCR Noida'
-            ))
+            'Ivan Ivanov',
+            'Ivanov235@yandex.ru',
+            'Male',
+            '9789123456',
+            '15 June,1995',
+            'Physics',
+            'Reading',
+            'sostavlennaa-kniga-i-doska.jpg',
+            'Lenina str',
+            'NCR Noida'
+        ))
 
         return self
-
-    
-
-
-
-
