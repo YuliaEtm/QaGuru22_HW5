@@ -1,6 +1,7 @@
 from selene import browser, have, be
-
+import calendar
 from demoqa_tests import resource
+from demoqa_tests.data.student import student
 
 
 class RegistrationPage:
@@ -83,16 +84,16 @@ class RegistrationPage:
         browser.element('.modal-content').should(be.visible)
 
         browser.element('.table').all('td').even.should(have.exact_texts(
-            'Ivan Ivanov',
-            'Ivanov235@yandex.ru',
-            'Male',
-            '9789123456',
-            '15 June,1995',
-            'Physics',
-            'Reading',
-            'sostavlennaa-kniga-i-doska.jpg',
-            'Lenina str',
-            'NCR Noida'
+            f'{student.first_name} {student.last_name}',
+            student.email,
+            student.gender.value,
+            student.phone,
+            f'{student.birth_date.day} {calendar.month_name[student.birth_date.month]},{student.birth_date.year}',
+            student.subjects,
+            student.hobbies.value,
+            student.picture,
+            student.address,
+            f'{student.state} {student.city}'
         ))
 
         return self
