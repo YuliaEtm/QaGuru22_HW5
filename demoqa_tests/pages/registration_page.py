@@ -8,6 +8,11 @@ class RegistrationPage:
         browser.open("/automation-practice-form")
         return self
 
+    def remove_banners(self):
+        browser.driver.execute_script("$('#fixedban').remove()")
+        browser.driver.execute_script("$('footer').remove()")
+        return self
+
     def fill_first_name(self, value):
         browser.element('#firstName').type(value)
         return self
