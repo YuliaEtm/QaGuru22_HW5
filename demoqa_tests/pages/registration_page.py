@@ -34,6 +34,11 @@ class RegistrationPage:
         browser.open("/automation-practice-form")
         return self
 
+    def remove_banners(self):
+        browser.driver.execute_script("$('#fixedban').remove()")
+        browser.driver.execute_script("$('footer').remove()")
+        return self
+
     def fill_first_name(self, value):
         self._first_name.type(value)
         return self
@@ -124,7 +129,7 @@ class RegistrationPage:
             f'{student.first_name} {student.last_name}',
             student.email,
             student.gender.value,
-            '9789123456',
+            student.phone,
             f'{student.birth_date.day} {calendar.month_name[student.birth_date.month]},{student.birth_date.year}',
             student.subjects,
             student.hobbies.value,
