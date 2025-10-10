@@ -79,10 +79,12 @@ class RegistrationPage:
         browser.element("#submit").click()
         return self
 
-    def should_registered_user_data(self):
+    def should_registered_title(self):
         browser.element('.modal-title').should(have.text('Thanks for submitting the form'))
         browser.element('.modal-content').should(be.visible)
+        return self
 
+    def should_registered_user_data(self):
         browser.element('.table').all('td').even.should(have.exact_texts(
             f'{student.first_name} {student.last_name}',
             student.email,

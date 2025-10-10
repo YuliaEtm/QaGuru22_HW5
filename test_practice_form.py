@@ -21,4 +21,5 @@ def test_submitting_the_form(browser_settings):
     registration_page.fill_state(student.state)
     registration_page.fill_city(student.city)
     registration_page.click_submit()
+    registration_page.should_registered_title()
     registration_page.should_registered_user_data()
