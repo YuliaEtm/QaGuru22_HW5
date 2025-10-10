@@ -1,14 +1,11 @@
 from selene import browser, have, be, command
 import calendar
 from demoqa_tests import resource
-
-
-from demoqa_tests.data.student import student
+from demoqa_tests.models.user import User
 
 
 class RegistrationPage:
     def __init__(self):
-
         self._first_name = browser.element('#firstName')
         self._last_name = browser.element('#lastName')
         self._email = browser.element('#userEmail')
@@ -67,15 +64,15 @@ class RegistrationPage:
         ).click()
         return self
 
-    def birthday(self, data):
+    def birthday(self, user: User):
         self._birth_input.click()
 
-        month = calendar.month_name[student.birth_date.month]
+        month = calendar.month_name[user.birth_date.month]
         self._birth_month_select.type(month)
 
-        self._birth_year_select.type(data.year)
+        self._birth_year_select.type(user.birth_date.year)
 
-        browser.element(f'.react-datepicker__day--0{data.day}').click()
+        browser.element(f'.react-datepicker__day--0{user.birth_date.day}').click()
         return self
 
     def subjects(self, value):
@@ -105,37 +102,37 @@ class RegistrationPage:
         self._submit.click()
         return self
 
-    def register(self):
-        self.fill_first_name(student.first_name)
-        self.fill_last_name(student.last_name)
-        self.fill_email(student.email)
-        self.fill_gender(student.gender)
-        self.fill_user_number(student.phone)
-        self.birthday(student.birth_date)
-        self.subjects(student.subjects)
-        self.hobbies(student.hobbies)
-        self.upload_file(student.picture)
-        self.fill_address(student.address)
-        self.fill_state(student.state)
-        self.fill_city(student.city)
+    def register(self, user: User):
+        self.fill_first_name(user.first_name)
+        self.fill_last_name(user.last_name)
+        self.fill_email(user.email)
+        self.fill_gender(user.gender)
+        self.fill_user_number(user.phone)
+        self.birthday(user)
+        self.subjects(user.subjects)
+        self.hobbies(user.hobbies)
+        self.upload_file(user.picture)
+        self.fill_address(user.address)
+        self.fill_state(user.state)
+        self.fill_city(user.city)
         self.click_submit()
         return self
 
-    def should_registered_user_data(self):
+    def should_registered_user_data(self, user: User):
         browser.element('.modal-title').should(have.text('Thanks for submitting the form'))
         browser.element('.modal-content').should(be.visible)
 
         browser.element('.table').all('td').even.should(have.exact_texts(
-            f'{student.first_name} {student.last_name}',
-            student.email,
-            student.gender.value,
-            student.phone,
-            f'{student.birth_date.day} {calendar.month_name[student.birth_date.month]},{student.birth_date.year}',
-            student.subjects,
-            student.hobbies.value,
-            student.picture,
-            student.address,
-            f'{student.state} {student.city}'
+            f'{user.first_name} {user.last_name}',
+            user.email,
+            user.gender.value,
+            user.phone,
+            f'{user.birth_date.day} {calendar.month_name[user.birth_date.month]},{user.birth_date.year}',
+            user.subjects,
+            user.hobbies.value,
+            user.picture,
+            user.address,
+            f'{user.state} {user.city}'
         ))
 
         return self

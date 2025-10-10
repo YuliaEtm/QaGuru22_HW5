@@ -15,5 +15,3 @@ student = User(
     address='Lenina str',
     state='NCR',
     city='Noida')
-
-
